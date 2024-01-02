@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using CostAllocationApp.DAL;
 using CostAllocationApp.ViewModels;
-using CostAllocationApp.DAL;
 using CostAllocationApp.Models;
 
 namespace CostAllocationApp.BLL

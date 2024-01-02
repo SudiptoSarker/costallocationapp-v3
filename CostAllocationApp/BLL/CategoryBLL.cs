@@ -63,10 +63,6 @@ namespace CostAllocationApp.BLL
             return categoryDAL.RemoveCategory(category);
         }
 
-        public bool CheckCategory(string categoryName)
-        {
-            return categoryDAL.CheckCategory(categoryName);
-        }
         public Category GetCategoryByCategoryId(int categoryId)
         {
             return categoryDAL.GetCategoryByCategoryId(categoryId);

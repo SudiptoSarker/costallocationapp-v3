@@ -16,34 +16,6 @@ namespace CostAllocationApp.Controllers
         {
             userBLL = new UserBLL();
         }
-        // GET: Users
-        [NonAction]
-        public ActionResult Index()
-        {
-            return View();
-        }
-        public ActionResult CreateUsers()
-        {
-            if (!_utility.CheckSession())
-            {
-                return RedirectToAction("Login", "Registration");
-            }
-            else
-            {
-                string userRole = "";
-                string loggedIn_userName = Session["userName"].ToString();
-                if (!string.IsNullOrEmpty(loggedIn_userName))
-                {
-                    userRole = userBLL.GetUserRoleByUserName(loggedIn_userName);
-                    ViewBag.UserRole = userRole;
-                }
-                else
-                {
-                    return RedirectToAction("Login", "Registration");
-                }
-            }
-            return View();
-        }
         public ActionResult EditUsers()
         {
             if (!_utility.CheckSession())

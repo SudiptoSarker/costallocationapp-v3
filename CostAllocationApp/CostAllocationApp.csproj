@@ -219,7 +219,6 @@
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\ExplanationsController.cs" />
-    <Compile Include="Controllers\ExportsController.cs" />
     <Compile Include="Controllers\ForecastsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InChargesController.cs" />
@@ -238,7 +237,6 @@
     <Compile Include="DAL\EmployeeDAL.cs" />
     <Compile Include="DAL\EmployeeAssignmentDAL.cs" />
     <Compile Include="DAL\ExplanationDAL.cs" />
-    <Compile Include="DAL\ExportExcelFileDAL.cs" />
     <Compile Include="DAL\ForecastDAL.cs" />
     <Compile Include="DAL\InChargeDAL.cs" />
     <Compile Include="DAL\QaProportionDAL.cs" />
@@ -786,10 +784,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Dash\" />
-    <Folder Include="Views\Explanation\" />
-    <Folder Include="Views\Exports\" />
-    <Folder Include="Views\InCharge\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

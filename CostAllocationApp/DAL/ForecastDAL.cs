@@ -590,11 +590,6 @@ namespace CostAllocationApp.DAL
                     {
                         while (rdr.Read())
                         {
-                            //Forecast forecast2 = new Forecast();
-                            //forecast2.Id = Convert.ToInt32(rdr["Id"]);
-                            //forecast2.Month = Convert.ToInt32(rdr["MonthId"]);
-                            //forecast2.Points = Convert.ToDecimal(rdr["Points"]);
-                            //forecast2.EmployeeAssignmentId = Convert.ToInt32(rdr["EmployeeAssignmentsId"]);
 
                             string monthsPoints = rdr["MonthId_Points"].ToString();
                             var arrMonthsPoints = monthsPoints.Split(',');
@@ -613,9 +608,6 @@ namespace CostAllocationApp.DAL
                                     forecasts.Add(forecast);
                                 }                                
                             }
-
-                            //forecast2.CreatedBy = rdr["CreatedBy"].ToString();
-                            //forecasts.Add(forecast2);
                         }
                     }
                 }
@@ -644,11 +636,6 @@ namespace CostAllocationApp.DAL
                     {
                         while (rdr.Read())
                         {
-                            //Forecast forecast2 = new Forecast();
-                            //forecast2.Id = Convert.ToInt32(rdr["Id"]);
-                            //forecast2.Month = Convert.ToInt32(rdr["MonthId"]);
-                            //forecast2.Points = Convert.ToDecimal(rdr["Points"]);
-                            //forecast2.EmployeeAssignmentId = Convert.ToInt32(rdr["EmployeeAssignmentsId"]);
 
                             string monthsPoints = rdr["MonthId_Points"].ToString();
                             var arrMonthsPoints = monthsPoints.Split(',');
@@ -667,9 +654,6 @@ namespace CostAllocationApp.DAL
                                     forecasts.Add(forecast);
                                 }
                             }
-
-                            //forecast2.CreatedBy = rdr["CreatedBy"].ToString();
-                            //forecasts.Add(forecast2);
                         }
                     }
                 }
@@ -963,8 +947,7 @@ namespace CostAllocationApp.DAL
                             bool isInitialDataExists = _departmentDAL.CheckForBudgetInitialDataExists(forecastYear.Year);
                             bool isSecondHalfBudgetExists = _departmentDAL.CheckForBudgetSecondHalfDataExists(forecastYear.Year);                            
                             forecastYear.FirstHalfBudget = isInitialDataExists;                            
-                            forecastYear.SecondHalfBudget = isSecondHalfBudgetExists;
-                            //forecastYear.FinalizedBudget = rdr["FinalizedBudget"] is DBNull ? false : Convert.ToBoolean(rdr["FinalizedBudget"]);                            
+                            forecastYear.SecondHalfBudget = isSecondHalfBudgetExists;                           
                             forecastYears.Add(forecastYear);
                         }
                     }
@@ -1447,7 +1430,6 @@ namespace CostAllocationApp.DAL
             query = query + "    Left Join Explanations ex On eh.ExplanationId = ex.Id ";
             query = query + "    Left Join Companies c On eh.CompanyId = c.Id ";
             query = query + "    Left Join Grades g On eh.GradeId = g.Id ";
-            //query = query + "    Left Join EmployeesAssignments ea On eh.EmployeeAssignmentId = ea.Id ";
             query = query + "    Left Join ApprovedEmployeesAssignments ea On eh.EmployeeAssignmentId = ea.AssignmentId And ea.ApprovedTimeStampId = " + timeStampId;
             query = query + "Where eh.EmployeeAssignmentId = " + assignmentId + " and eh.TimeStampId=" + timeStampId;
             query = query + " Order By ea.EmployeeName asc";
@@ -1533,7 +1515,6 @@ namespace CostAllocationApp.DAL
                             assignmentHistoryViewModal.GradePoints = rdr["GradePoints"] is DBNull ? "" : rdr["GradePoints"].ToString();
                             assignmentHistoryViewModal.UnitPrice = rdr["UnitPrice"] is DBNull ? "" : rdr["UnitPrice"].ToString();
                             assignmentHistoryViewModal.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
-                            //assignmentHistoryViewModal.IsUpdate = rdr["IsUpdate"] is DBNull ? false : Convert.ToBoolean(rdr["IsUpdate"]);
                         }
                     }
                 }
@@ -1570,11 +1551,6 @@ namespace CostAllocationApp.DAL
                 if (result > 0)
                 {
                     var lastId = GetLastId("ApproveTimeStamps");
-                    //CreateApprovetHistory(lastId);
-                    //foreach (var item in assignmentHistories)
-                    //{
-                    //    CreateAssignmenttHistory(item, lastId, isUpdate);
-                    //}
                     result = lastId;
                 }
                 return result;
@@ -1587,8 +1563,6 @@ namespace CostAllocationApp.DAL
 
             //add employee: approve history. note: there is not previous data to compare
             int results_Add = 0;
-            //List<AssignmentHistory> _assignmentHistories_Add = new List<AssignmentHistory>();
-            //_assignmentHistories_Add = GetAddEmployeeApprovedData(year);
             foreach(var addEmployeeItem in _assignmentHistories_Add)
             {
                 addEmployeeItem.CreatedBy = createdBy;
@@ -1597,8 +1571,6 @@ namespace CostAllocationApp.DAL
 
             //delete employee: approve history. note: there is not previous data to compare
             int results_Delete = 0;
-            //List<AssignmentHistory> _assignmentHistorys_Delete = new List<AssignmentHistory>();
-            //_assignmentHistorys_Delete = GetDeleteEmployeeApprovedData(year);
             foreach (var deleteEmployeeItem in _assignmentHistorys_Delete)
             {
                 deleteEmployeeItem.CreatedBy = createdBy;
@@ -1607,8 +1579,6 @@ namespace CostAllocationApp.DAL
 
             //cell wise approve: approve history. note: compare the cells with previous data
             int results_Cells = 0;
-            //List<AssignmentHistory> _assignmentHistorys_CellWise = new List<AssignmentHistory>();
-            //_assignmentHistorys_CellWise = GetCellWiseEmployeeApprovedData(year);
             foreach (var cellWiseEmployeeItem in _assignmentHistorys_CellWise)
             {
                 cellWiseEmployeeItem.CreatedBy = createdBy;
@@ -2008,11 +1978,6 @@ namespace CostAllocationApp.DAL
                             assignmentHistoryViewModal.Remarks = rdr["Remarks"] is DBNull ? "" : rdr["Remarks"].ToString();
                             assignmentHistoryViewModal.IsUpdate = rdr["IsUpdate"] is DBNull ? false : Convert.ToBoolean(rdr["IsUpdate"]);
                             assignmentHistoryViewModal.MonthId_Points = rdr["MonthId_Points"] is DBNull ? "" : rdr["MonthId_Points"].ToString();
-                            
-                            //if (!string.IsNullOrEmpty(assignmentHistories.Id.ToString()))
-                            //{
-                            //    assignmentHistories.MonthId_Points = GetForecastDataForHistory(assignmentHistories.Id);
-                            //}
                         }
                     }
                 }
@@ -2068,10 +2033,6 @@ namespace CostAllocationApp.DAL
                             assignmentHistoryViewModal.IsUpdate = rdr["IsUpdate"] is DBNull ? false : Convert.ToBoolean(rdr["IsUpdate"]);
                             assignmentHistoryViewModal.MonthId_Points = rdr["MonthId_Points"] is DBNull ? "" : rdr["MonthId_Points"].ToString();
                             assignmentHistoryViewModal.ApprovedCells = rdr["ApprovedCells"] is DBNull ? "" : rdr["ApprovedCells"].ToString();
-                            //if (!string.IsNullOrEmpty(assignmentHistories.Id.ToString()))
-                            //{
-                            //    assignmentHistories.MonthId_Points = GetForecastDataForHistory(assignmentHistories.Id);
-                            //}
                         }
                     }
                 }

@@ -396,7 +396,6 @@ namespace CostAllocationApp.DAL
         public int RemoveEmployees(int employeeId)
         {
             int result = 0;
-            //string query = $@"DELETE FROM Employees WHERE id = @id ";
             string query = $@"UPDATE Employees SET IsActive = 0 WHERE Id = @id ";
             using (SqlConnection sqlConnection = this.GetConnection())
             {

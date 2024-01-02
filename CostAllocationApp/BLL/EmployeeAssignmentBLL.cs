@@ -62,7 +62,6 @@ namespace CostAllocationApp.BLL
                 }
             }
             return employees;
-            //return employeeAssignmentDAL.SearchAssignment(employeeAssignment);
         }
 
         public EmployeeAssignmentViewModel GetAssignmentById(int assignmentId)
@@ -106,8 +105,6 @@ namespace CostAllocationApp.BLL
                 {
                     employees = employees.Where(emp => emp.ExplanationId == employeeAssignment.ExplanationId && emp.ExplanationId != "0").ToList();
                 }
-
-                //this.MarkedAsRed(employees);
                 this.MarkedAsRedForAddName(employees);
             }
 
@@ -467,11 +464,6 @@ namespace CostAllocationApp.BLL
                     count++;
                 }
 
-                //if (!String.IsNullOrEmpty(employeeAssignment.ExplanationId))
-                //{
-                //    employees = employees.Where(emp => emp.ExplanationId == employeeAssignment.ExplanationId && emp.ExplanationId != "0").ToList();
-                //}
-
                 List<ForecastAssignmentViewModel> redMarkedForecastAssignments = this.MarkedAsRedForForecast(employees);
                 if (redMarkedForecastAssignments.Count > 0)
                 {
@@ -492,29 +484,6 @@ namespace CostAllocationApp.BLL
             {
                 employees = employees.OrderBy(e => e.EmployeeName).GroupBy(e => e.EmployeeName).SelectMany(e => e).ToList();
             }
-
-            //if (employees.Count > 0)
-            //{
-            //    string previousEmployeeName = "";
-            //    int count = 1;
-            //    foreach (var item in employees)
-            //    {
-            //        if (previousEmployeeName!=item.EmployeeName)
-            //        {
-            //            previousEmployeeName = item.EmployeeName;
-            //            count = 1;
-            //            //item.EmployeeName = item.EmployeeName + " (" + count + ")";
-            //            item.EmployeeName = item.EmployeeName;
-            //            count++;
-
-            //        }
-            //        else
-            //        {
-            //            item.EmployeeName = item.EmployeeName + " (" + count + ")";
-            //            count++;
-            //        }
-            //    }
-            //}
 
             // head count...
             if (employees.Count > 0)
@@ -925,7 +894,6 @@ namespace CostAllocationApp.BLL
                         var singleEmployee = employees.Where(emp => emp.Id == item.Id).FirstOrDefault();
                         if (singleEmployee != null)
                         {
-                            //singleEmployee.SubCode = -1;
                             if (!String.IsNullOrEmpty(singleEmployee.Remarks))
                             {
                                 singleEmployee.EmployeeNameWithCodeRemarks = singleEmployee.EmployeeName + "$" + singleEmployee.EmployeeName + " " + singleEmployee.SubCode + " (" + singleEmployee.Remarks + ")";
@@ -964,7 +932,6 @@ namespace CostAllocationApp.BLL
                         var singleEmployee = employees.Where(emp => emp.Id == item.Id).FirstOrDefault();
                         if (singleEmployee != null)
                         {
-                            //singleEmployee.SubCode = -1;
                             if (!String.IsNullOrEmpty(singleEmployee.Remarks))
                             {
                                 singleEmployee.EmployeeNameWithCodeRemarks = singleEmployee.EmployeeName + "$" + singleEmployee.EmployeeName + " (" + singleEmployee.Remarks + ")";
@@ -1003,7 +970,6 @@ namespace CostAllocationApp.BLL
                         var singleEmployee = employees.Where(emp => emp.Id == item.Id).FirstOrDefault();
                         if (singleEmployee != null)
                         {
-                            //singleEmployee.SubCode = -1;
                             if (!String.IsNullOrEmpty(singleEmployee.Remarks))
                             {
                                 singleEmployee.EmployeeNameWithCodeRemarks = singleEmployee.EmployeeName + "$" + singleEmployee.EmployeeName + " " + singleEmployee.SubCode + " (" + singleEmployee.Remarks + ")";
@@ -1038,7 +1004,6 @@ namespace CostAllocationApp.BLL
                         var singleEmployee = employees.Where(emp => emp.Id == item.Id).FirstOrDefault();
                         if (singleEmployee != null)
                         {
-                            //singleEmployee.SubCode = -1;
                             if (!String.IsNullOrEmpty(singleEmployee.Remarks))
                             {
                                 singleEmployee.EmployeeNameWithCodeRemarks = singleEmployee.EmployeeName + "$" + singleEmployee.EmployeeName + " (" + singleEmployee.Remarks + ")";
@@ -1077,7 +1042,6 @@ namespace CostAllocationApp.BLL
                         var singleEmployee = employees.Where(emp => emp.Id == item.Id).FirstOrDefault();
                         if (singleEmployee != null)
                         {
-                            //singleEmployee.SubCode = -1;
                             if (!String.IsNullOrEmpty(singleEmployee.Remarks))
                             {
                                 singleEmployee.EmployeeNameWithCodeRemarks = singleEmployee.EmployeeName + "$" + singleEmployee.EmployeeName + " " + singleEmployee.SubCode + " (" + singleEmployee.Remarks + ")";
@@ -1116,7 +1080,6 @@ namespace CostAllocationApp.BLL
                         var singleEmployee = employees.Where(emp => emp.Id == item.Id).FirstOrDefault();
                         if (singleEmployee != null)
                         {
-                            //singleEmployee.SubCode = -1;
                             if (!String.IsNullOrEmpty(singleEmployee.Remarks))
                             {
                                 singleEmployee.EmployeeNameWithCodeRemarks = singleEmployee.EmployeeName + "$" + singleEmployee.EmployeeName + " (" + singleEmployee.Remarks + ")";
@@ -1593,7 +1556,6 @@ namespace CostAllocationApp.BLL
                 {
                     foreach (var item in redMarkedForecastAssignments)
                     {
-                        //item.forecasts = employeeAssignmentDAL.GetForecastsByAssignmentId(item.Id, employeeAssignment.Year);
                         item.forecasts = employeeAssignmentDAL.GetApprovedForecastdData(item.Id, employeeAssignment.Year);
                     }
                 }
@@ -1897,7 +1859,6 @@ namespace CostAllocationApp.BLL
                                 if (actualCost.OctCost > 0)
                                 {
                                     forecast.Total = actualCost.OctCost.ToString();
-                                    //forecast.Points = Convert.ToDecimal(actualCost.OctPoint);
                                     forecast.TotalPoints = manmonthSum;
                                     forecast.TotalCosts = costTotal;
                                 }
@@ -1924,7 +1885,6 @@ namespace CostAllocationApp.BLL
                                 if (actualCost.NovCost > 0)
                                 {
                                     forecast.Total = actualCost.NovCost.ToString();
-                                    //forecast.Points = Convert.ToDecimal(actualCost.NovPoint);
                                     forecast.TotalPoints = manmonthSum;
                                     forecast.TotalCosts = costTotal;
                                 }
@@ -1950,7 +1910,6 @@ namespace CostAllocationApp.BLL
                                 if (actualCost.DecCost > 0)
                                 {
                                     forecast.Total = actualCost.DecCost.ToString();
-                                    //forecast.Points = Convert.ToDecimal(actualCost.DecPoint);
                                     forecast.TotalPoints = manmonthSum;
                                     forecast.TotalCosts = costTotal;
                                 }
@@ -1976,7 +1935,6 @@ namespace CostAllocationApp.BLL
                                 if (actualCost.JanCost > 0)
                                 {
                                     forecast.Total = actualCost.JanCost.ToString();
-                                    //forecast.Points = Convert.ToDecimal(actualCost.JanPoint);
                                     forecast.TotalPoints = manmonthSum;
                                     forecast.TotalCosts = costTotal;
                                 }
@@ -2002,7 +1960,6 @@ namespace CostAllocationApp.BLL
                                 if (actualCost.FebCost > 0)
                                 {
                                     forecast.Total = actualCost.FebCost.ToString();
-                                    //forecast.Points = Convert.ToDecimal(actualCost.FebPoint);
                                     forecast.TotalPoints = manmonthSum;
                                     forecast.TotalCosts = costTotal;
                                 }
@@ -2028,7 +1985,6 @@ namespace CostAllocationApp.BLL
                                 if (actualCost.MarCost > 0)
                                 {
                                     forecast.Total = actualCost.MarCost.ToString();
-                                    //forecast.Points = Convert.ToDecimal(actualCost.MarPoint);
                                     forecast.TotalPoints = manmonthSum;
                                     forecast.TotalCosts = costTotal;
                                 }
@@ -2054,7 +2010,6 @@ namespace CostAllocationApp.BLL
                                 if (actualCost.AprCost > 0)
                                 {
                                     forecast.Total = actualCost.AprCost.ToString();
-                                    //forecast.Points = Convert.ToDecimal(actualCost.AprPoint);
                                     forecast.TotalPoints = manmonthSum;
                                     forecast.TotalCosts = costTotal;
                                 }
@@ -2079,7 +2034,6 @@ namespace CostAllocationApp.BLL
                                 if (actualCost.MayCost > 0)
                                 {
                                     forecast.Total = actualCost.MayCost.ToString();
-                                    //forecast.Points = Convert.ToDecimal(actualCost.MayPoint);
                                     forecast.TotalPoints = manmonthSum;
                                     forecast.TotalCosts = costTotal;
                                 }
@@ -2105,7 +2059,6 @@ namespace CostAllocationApp.BLL
                                 if (actualCost.JunCost > 0)
                                 {
                                     forecast.Total = actualCost.JunCost.ToString();
-                                    //forecast.Points = Convert.ToDecimal(actualCost.JunPoint);
                                     forecast.TotalPoints = manmonthSum;
                                     forecast.TotalCosts = costTotal;
                                 }
@@ -2131,7 +2084,6 @@ namespace CostAllocationApp.BLL
                                 if (actualCost.JulCost > 0)
                                 {
                                     forecast.Total = actualCost.JulCost.ToString();
-                                    //forecast.Points = Convert.ToDecimal(actualCost.JulPoint);
                                     forecast.TotalPoints = manmonthSum;
                                     forecast.TotalCosts = costTotal;
                                 }
@@ -2157,7 +2109,6 @@ namespace CostAllocationApp.BLL
                                 if (actualCost.AugCost > 0)
                                 {
                                     forecast.Total = actualCost.AugCost.ToString();
-                                    //forecast.Points = Convert.ToDecimal(actualCost.AugPoint);
                                     forecast.TotalPoints = manmonthSum;
                                     forecast.TotalCosts = costTotal;
                                 }
@@ -2183,7 +2134,6 @@ namespace CostAllocationApp.BLL
                                 if (actualCost.SepCost > 0)
                                 {
                                     forecast.Total = actualCost.SepCost.ToString();
-                                    //forecast.Points = Convert.ToDecimal(actualCost.SepPoint);
                                     forecast.TotalPoints = manmonthSum;
                                     forecast.TotalCosts = costTotal;
                                 }
@@ -2237,18 +2187,6 @@ namespace CostAllocationApp.BLL
                         
                         item.TotalManMonth = item.forecasts.Where(f => f.Month == 10).SingleOrDefault().TotalPoints;
                         item.TotalCost = item.forecasts.Where(f => f.Month == 10).SingleOrDefault().TotalCosts;
-                        //item.TotalManMonth = item.forecasts.Where(f => f.Month == 11).SingleOrDefault().TotalPoints;
-                        //item.TotalManMonth = item.forecasts.Where(f => f.Month == 12).SingleOrDefault().TotalPoints;
-                        //item.TotalManMonth = item.forecasts.Where(f => f.Month == 1).SingleOrDefault().TotalPoints;
-                        //item.TotalManMonth = item.forecasts.Where(f => f.Month == 2).SingleOrDefault().TotalPoints;
-                        //item.TotalManMonth = item.forecasts.Where(f => f.Month == 3).SingleOrDefault().TotalPoints;
-                        //item.TotalManMonth = item.forecasts.Where(f => f.Month == 4).SingleOrDefault().TotalPoints;
-                        //item.TotalManMonth = item.forecasts.Where(f => f.Month == 5).SingleOrDefault().TotalPoints;
-                        //item.TotalManMonth = item.forecasts.Where(f => f.Month == 6).SingleOrDefault().TotalPoints;
-                        //item.TotalManMonth = item.forecasts.Where(f => f.Month == 7).SingleOrDefault().TotalPoints;
-                        //item.TotalManMonth = item.forecasts.Where(f => f.Month == 8).SingleOrDefault().TotalPoints;
-                        //item.TotalManMonth = item.forecasts.Where(f => f.Month == 9).SingleOrDefault().TotalPoints;
-                        //item.TotalManMonth = null;
                     }
                     else
                     {
@@ -2367,7 +2305,6 @@ namespace CostAllocationApp.BLL
                         string costTotal = $"=AD{count}+AE{count}+AF{count}+AG{count}+AH{count}+AI{count}+AJ{count}+AK{count}+AL{count}+AM{count}+AN{count}+AO{count}";
                         if (innerCount == 1)
                         {
-                            //l-w
                             forecast.Total = $"=K{count}*Q{count}";
                             forecast.TotalPoints = manmonthSum;
                             forecast.TotalCosts = costTotal;
@@ -3101,7 +3038,6 @@ namespace CostAllocationApp.BLL
 
         public List<ForecastAssignmentViewModel> GetBudgetManmonthByDepartments(string departmentIds, string companyIds, int year)
         {
-            //List<ForecastAssignmentViewModel> forecastAssignments = employeeAssignmentDAL.GetBudgetManmonthByDepartments(departmentIds, companyIds, year);
             List<ForecastAssignmentViewModel> forecastAssignments = totalDAL.GetBudgetCostByCompanyAndDepartmentId(departmentIds, companyIds, year);
 
             if (forecastAssignments.Count > 0)

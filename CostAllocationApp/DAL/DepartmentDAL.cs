@@ -500,7 +500,7 @@ namespace CostAllocationApp.DAL
         }
         public int GetDepartmentIdByDepartmentName(string departmentName)
         {
-            string query = "select * from Departments  where Name=N'" + departmentName+"' ";// + "' and SectionId=" + department.SectionId;
+            string query = "select * from Departments  where Name=N'" + departmentName+"' ";
             int departmentId = 0;
             using (SqlConnection sqlConnection = this.GetConnection())
             {

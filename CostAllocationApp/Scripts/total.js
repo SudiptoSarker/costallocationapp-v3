@@ -209,8 +209,7 @@ function ColorNegativeValue() {
     $.each(allTableData, (index, value) => {
         if (value.innerText.includes('-')) {
             var colorValue = ReplaceComma(value.innerText);
-            if ($.isNumeric(value.innerText)) {
-
+            if ($.isNumeric(colorValue)) {
                 $(value).css('color', 'red');
             }
 

@@ -1,8 +1,12 @@
-﻿/*-----------------Dynamic Table view Format-----------------------*/
-body {
-    overflow-x: auto;
+﻿/************************************\                           
+	Dynamic Table View Format: Start
+\************************************/ 
+.dynamic_checkbox{
+    width: 41px;
 }
-
+.dynamic_main_total,.dynamic_sub_total{
+    width: 70px;
+}
 #dynamic_table_page_header{
     font-size: 12px;
     font-family: "Yu Gothic";
@@ -71,7 +75,7 @@ body {
 }
 .dynamic_table_list_action{
     margin-top: 8px;
-    margin-left: 24%;
+    margin-left: 44%;
 }
 .list_table_delete_btn{
     display: inline-block;
@@ -118,8 +122,31 @@ body {
 .data_for{
     width: 30%;
 }
+.confrim_del_btn{
+    width: 100%;
+    font-size: 13px;
+    font-family: Yu Gothic;
+    background: darkgray;
+    color: black !important;
+    line-height: 1.1;
+    border: 1px solid black !important;
+}
+.confrim_cancel_btn{
+    width: 100%;
+    font-size: 13px;
+    font-family: Yu Gothic;
+    background: darkgray;
+    color: black !important;
+    line-height: 1.1;
+    border: 1px solid black !important;
+}
+/************************************\                           
+	Dynamic Table View Format: End
+\************************************/ 
 
-/*multi selector*/
+/************************************\                           
+	Custome Select2 dropdown for dynamic table view format
+\************************************/
 .select2.select2-container.select2-container--default.select2-container--above{
     width: 100% !important;
 }
@@ -156,39 +183,12 @@ body {
 .select2-container--default .select2-selection--multiple{
     background-color: #dedede;
 }
-.data_for{
-    width: 30% !important;
-}
-/*modal delete cancel button design*/
-.confrim_del_btn{
-    width: 100%;
-    font-size: 13px;
-    font-family: Yu Gothic;
-    background: darkgray;
-    color: black !important;
-    line-height: 1.1;
-    /* margin-left: 188px; */
-    border: 1px solid black !important;
-}
-.confrim_cancel_btn{
-    width: 100%;
-    font-size: 13px;
-    font-family: Yu Gothic;
-    background: darkgray;
-    color: black !important;
-    line-height: 1.1;
-    /* margin-left: 84px; */
-    border: 1px solid black !important;
-}
-/*multi select*/
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
     height: 18px !important;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
     padding: 2px 4px !important;    
 }
-
-/*select2 dropdown arrow icon*/
 .select2-selection--multiple:before {
     content: "";
     position: absolute;

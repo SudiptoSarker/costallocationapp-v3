@@ -394,7 +394,7 @@ function CreateDynamicSettingTablesWithCalculations(dynamicSettings, selected_co
                                     <tr data-item='${mainItem.MainItemName}'>
                                     <td><i class="fa fa-plus expand-main" aria-hidden="true"></i> ${mainItem.MainItemName}</td>
                                     <td></td>
-                                    <td class='${direction}'>-${Math.round(mainItem.OctVal).toLocaleString('en-US')}</td>
+                                    <td class='${direction}'>${Math.round(mainItem.OctVal).toLocaleString('en-US')}</td>
                                     <td class='${direction}'>${Math.round(mainItem.NovVal).toLocaleString('en-US')}</td>
                                     <td class='${direction}'>${Math.round(mainItem.DecVal).toLocaleString('en-US')}</td>
                                     <td class='${direction}'>${Math.round(mainItem.JanVal).toLocaleString('en-US')}</td>

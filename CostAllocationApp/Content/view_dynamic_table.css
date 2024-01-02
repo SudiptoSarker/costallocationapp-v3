@@ -1,6 +1,13 @@
 ﻿/************************************\                           
 	Dynamic Table View Format: Start
-\************************************/ 
+\************************************/
+
+#dynamic_table_view_instructions{
+    font-size: 10px;
+    font-weight: bold;
+    font-family: Yu Gothic;
+    margin-top:1rem;
+}
 .dynamic_checkbox{
     width: 41px;
 }

@@ -343,8 +343,8 @@ function GetDynamicSettings(dynamicTableId,resultsItem) {
         type: 'Get',
         dataType: 'json',
         success: function (data) {   
-            $('#dynamic_setting_instructions').empty();
-            $('#dynamic_setting_instructions').append('設定を保存する場合、合計の欄のチェックボックスにチェックを入れてください。複数のチェックボックスにチェックはできません。１つのチェックボックスのみ選択してください。合計でチェックした欄は、設定した表をドリルアップした場合に表示されます。');
+            $('#dynamic_table_view_instructions').empty();
+            $('#dynamic_table_view_instructions').append('設定を保存する場合、合計の欄のチェックボックスにチェックを入れてください。複数のチェックボックスにチェックはできません。１つのチェックボックスのみ選択してください。合計でチェックした欄は、設定した表をドリルアップした場合に表示されます。');
             var tableheaderStartHtml = "<tr>"       
             var tableheaderEndHtml = "</tr>"
             var tableheaderHtml = ""

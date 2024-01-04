@@ -344,7 +344,7 @@ function GetDynamicSettings(dynamicTableId,resultsItem) {
         dataType: 'json',
         success: function (data) {   
             $('#dynamic_table_view_instructions').empty();
-            $('#dynamic_table_view_instructions').append('設定を保存する場合、合計の欄のチェックボックスにチェックを入れてください。複数のチェックボックスにチェックはできません。１つのチェックボックスのみ選択してください。合計でチェックした欄は、設定した表をドリルアップした場合に表示されます。');
+            $('#dynamic_table_view_instructions').append('設定を保存する場合、右側のチェックボックスにチェックを入れてください（表が３階層の場合は２つのチェックボックスが表示されます）。また、た各階層が複数行の場合、各階層ごとに１つの行のチェックボックスのみ選択してください。下記の例を参考にしてください。');
             var tableheaderStartHtml = "<tr>"       
             var tableheaderEndHtml = "</tr>"
             var tableheaderHtml = ""
@@ -462,9 +462,9 @@ function GetDynamicSettings(dynamicTableId,resultsItem) {
                         settingColCount = parseInt(settingColCount)+2;
                         tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header dynamic_method'>集計方式​</th>";
                         tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_data'>集計データ</th>";
-                        tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_main_total'>"+arrResultsItem[0]+" flag</th>";
+                        tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_main_total'>大項目フラグ</th>";
                         if (detailItem != '') {
-                            tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_sub_total'>"+arrResultsItem[1]+" flag</th>";
+                            tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_sub_total'>中項目フラグ</th>";
                         }
                         tableheaderHtml = tableheaderStartHtml+""+tableheaderHtml+""+tableheaderEndHtml;
                         $('#total_menu_list_thead').empty().append(`${tableheaderHtml}`);  
@@ -552,9 +552,9 @@ function GetDynamicSettings(dynamicTableId,resultsItem) {
                 settingColCount = parseInt(settingColCount)+2;
                 tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header dynamic_method'>集計方式</th>";
                 tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_data'>集計データ</th>";
-                tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_main_total'>"+arrResultsItem[0]+" flag</th>";
+                tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_main_total'>大項目フラグ</th>";
                 if (detailItem != '') {
-                    tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_sub_total'>"+arrResultsItem[1]+" flag</th>";
+                    tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_sub_total'>中項目フラグ</th>";
                 }
 
                 tableheaderHtml = tableheaderStartHtml+""+tableheaderHtml+""+tableheaderEndHtml;

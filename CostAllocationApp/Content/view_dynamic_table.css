@@ -1,13 +1,35 @@
 ﻿/************************************\                           
-	Dynamic Table View Format: Start
+	Instructions: Start
 \************************************/
-
 #dynamic_table_view_instructions{
     font-size: 10px;
     font-weight: bold;
     font-family: Yu Gothic;
     margin-top:1rem;
 }
+.instruction_table{
+    font-size: 10px;
+    font-weight: bold;
+    font-family: Yu Gothic;
+    margin-top: 1rem;
+    line-height: .1;
+    width: 60%;
+    background-color: aliceblue;
+    color: rgb(119, 93, 85);
+}
+.instruction_table_header{
+    background-color: #76818D;
+    color: white;
+    text-align: center;
+}
+/************************************\                           
+	Instructions: End
+\************************************/
+
+/************************************\                           
+	Dynamic Table View Format: Start
+\************************************/
+
 .dynamic_checkbox{
     width: 41px;
 }

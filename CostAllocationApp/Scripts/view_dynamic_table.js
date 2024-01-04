@@ -462,9 +462,9 @@ function GetDynamicSettings(dynamicTableId,resultsItem) {
                         settingColCount = parseInt(settingColCount)+2;
                         tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header dynamic_method'>集計方式​</th>";
                         tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_data'>集計データ</th>";
-                        tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_main_total'>Main Total</th>";
+                        tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_main_total'>"+arrResultsItem[0]+" flag</th>";
                         if (detailItem != '') {
-                            tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_sub_total'>Sub Total</th>";
+                            tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_sub_total'>"+arrResultsItem[1]+" flag</th>";
                         }
                         tableheaderHtml = tableheaderStartHtml+""+tableheaderHtml+""+tableheaderEndHtml;
                         $('#total_menu_list_thead').empty().append(`${tableheaderHtml}`);  
@@ -552,9 +552,9 @@ function GetDynamicSettings(dynamicTableId,resultsItem) {
                 settingColCount = parseInt(settingColCount)+2;
                 tableheaderHtml = tableheaderHtml +"<th class='total_tbl_header dynamic_method'>集計方式</th>";
                 tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_data'>集計データ</th>";
-                tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_main_total'>Main Total</th>";
+                tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_main_total'>"+arrResultsItem[0]+" flag</th>";
                 if (detailItem != '') {
-                    tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_sub_total'>Sub Total</th>";
+                    tableheaderHtml = tableheaderHtml + "<th class='total_tbl_header dynamic_sub_total'>"+arrResultsItem[1]+" flag</th>";
                 }
 
                 tableheaderHtml = tableheaderStartHtml+""+tableheaderHtml+""+tableheaderEndHtml;

@@ -12,8 +12,8 @@
     font-weight: bold;
     font-family: Yu Gothic;
     margin-top: 1rem;
-    line-height: .1;
-    width: 60%;
+    /* line-height: .1; */
+    width: 44%;
     background-color: aliceblue;
     color: rgb(119, 93, 85);
 }
@@ -21,6 +21,16 @@
     background-color: #76818D;
     color: white;
     text-align: center;
+    font-size: 10px;
+    line-height: 0;
+}
+.instruction_table tbody{
+    text-align: center;
+    font-size: 8px;
+    line-height: 0;
+}
+.table td, .table th, .table tr th {
+    padding: .40rem !important
 }
 /************************************\                           
 	Instructions: End
